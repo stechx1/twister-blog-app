@@ -1,12 +1,13 @@
-import './App.css';
-import { Navbar, Footer } from './components';
+// import { Navbar, Footer } from './components';
+import { Login } from './components/Login';
 
 function App() {
   return (
     <>
-      <Navbar />
-
-      <Footer />
+      <Login />  
+      {/* <Navbar />
+      
+      <Footer /> */}
     </>
   );
 }
