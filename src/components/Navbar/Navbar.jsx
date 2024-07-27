@@ -5,7 +5,7 @@ import { Button } from '../Button';
 
 export const Navbar = () => {
   const [authStatus] = useState(false);
-  const navItems = authStatus
+  const navItems = !authStatus
     ? [
         { name: 'Home', url: '/', active: true },
         { name: 'All Blogs', url: '/all-blogs', active: false },
