@@ -9,12 +9,12 @@ export const LoginForm = () => {
     e.preventDefault();
     setShowPasswordField(!showPasswordField);
   };
-  const onSubmit = (data) => {
+  const onLogin = (data) => {
     console.log(data);
   };
   const { handleSubmit, register } = useForm();
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='w-full space-y-4'>
+    <form onSubmit={handleSubmit(onLogin)} className='w-full space-y-4'>
       <Input
         type='email'
         placeholder={'Your Email'}
@@ -28,7 +28,7 @@ export const LoginForm = () => {
         <div>
           <Input
             className='mb-4'
-            type={showPasswordField ? 'text' : 'password'}
+            type={'password'}
             placeholder={'Your Password'}
             {...register('password', { required: true })}
           />
