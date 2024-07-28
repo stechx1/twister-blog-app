@@ -1,10 +1,10 @@
 // import { Navbar, Footer } from './components';
-import { Login } from './components/Login';
+import LoginPage from './pages/Login';
 
 function App() {
   return (
     <>
-      <Login />  
+      <LoginPage />
       {/* <Navbar />
       
       <Footer /> */}

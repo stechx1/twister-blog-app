@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { GoogleButton } from '../GoogleButton/GoogleButton';
+import { LoginForm } from '../LoginForm';
 
 export const AuthCard = ({ type }) => {
   return (
@@ -7,12 +8,15 @@ export const AuthCard = ({ type }) => {
       <h1 className='font-semibold text-3xl'>
         {type === 'login' ? 'Login' : 'Sign Up'} to your account
       </h1>
-      {type === 'login' ? <form></form> : <form></form>}
 
-      <div className='text-gray-400 text-sm leading-4'>OR</div>
+      <div className='pt-8 pb-4 w-full'>
+        {type === 'login' ? <LoginForm /> : <form></form>}
+      </div>
+
+      <div className='text-gray-400 text-sm leading-4 mb-4'>OR</div>
       <GoogleButton />
       {type === 'login' ? (
-        <p className='text-primary'>
+        <p className='text-primary mt-10'>
           Cant login?{' '}
           <span className='font-bold hover:underline hover:cursor-pointer'>
             Sign Up
