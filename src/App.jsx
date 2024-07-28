@@ -1,14 +1,9 @@
-// import { Navbar, Footer } from './components';
-import LoginPage from './pages/Login';
-import SignupPage from './pages/SignUp';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
     <>
-      <SignupPage />
-      {/* <Navbar />
-      
-      <Footer /> */}
+      <Outlet />
     </>
   );
 }

@@ -20,9 +20,12 @@ export const AuthCard = ({ type }) => {
       {type === 'login' ? (
         <p className='text-primary mt-10'>
           Cant login?{' '}
-          <span className='font-bold hover:underline hover:cursor-pointer'>
+          <Link
+            to={'/sign-up'}
+            className='font-bold hover:underline hover:cursor-pointer'
+          >
             Sign Up
-          </span>
+          </Link>
         </p>
       ) : (
         <p className='text-primary mt-10'>
