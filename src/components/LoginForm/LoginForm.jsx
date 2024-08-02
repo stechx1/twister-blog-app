@@ -2,15 +2,29 @@ import { useForm } from 'react-hook-form';
 import { Input } from '../Input/Input';
 import { Button } from '../Button';
 import { useState } from 'react';
+import authService from '../../services/auth';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginForm = () => {
+  const navigate = useNavigate();
   const [showPasswordField, setShowPasswordField] = useState(false);
   const togglePasswordFieldVisibility = (e) => {
     e.preventDefault();
     setShowPasswordField(!showPasswordField);
   };
-  const onLogin = (data) => {
-    console.log(data);
+  const onLogin = async (data) => {
+    try {
+      const session = await authService.login(data);
+      if (session) {
+        const userData = await authService.getCurrentUser();
+        if (userData) {
+          // dispatch
+          navigate('/');
+        }
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
   };
   const { handleSubmit, register } = useForm();
   return (
