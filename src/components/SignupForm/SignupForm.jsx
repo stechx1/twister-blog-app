@@ -3,18 +3,27 @@ import { Input } from '../Input';
 import { Button } from '../Button';
 import authService from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/authSlice';
+import { useState } from 'react';
+// TODO: Add error support 
 export const SignupForm = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const onSignUp = async (data) => {
+    setLoading(true);
     try {
       const userData = await authService.createAccount(data);
       if (userData) {
-        // Dispatch
+        const userInfo = await authService.getCurrentUser();
+        setLoading(false);
+        dispatch(login(userInfo));
         navigate('/');
       }
     } catch (error) {
+      setLoading(false);
       throw new Error(error);
     }
   };
@@ -31,7 +40,7 @@ export const SignupForm = () => {
         placeholder='Create Password'
         {...register('password')}
       />
-      <Button>Regsiter</Button>
+      <Button loading={loading}>Regsiter</Button>
     </form>
   );
 };

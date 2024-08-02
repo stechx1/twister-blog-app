@@ -1,15 +1,27 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Navbar } from './components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import authService from './services/auth';
 
 function App() {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const authStatus = useSelector((state) => state.auth.status);
+  const userData = useSelector((state) => state.auth.userData);
   return (
     <>
       <Navbar />
       <Outlet />
-      {authStatus && <div>Logged in: {authStatus}</div>}
+      <button
+        onClick={() => {
+          authService.logout();
+          navigate('/login');
+        }}
+      >
+        logout
+      </button>
+      {console.log(authStatus)}
+      {authStatus && <div>Logged in: {userData?.name}</div>}
+      {userData?.email}
     </>
   );
 }

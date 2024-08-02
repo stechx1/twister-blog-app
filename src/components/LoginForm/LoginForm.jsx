@@ -4,8 +4,12 @@ import { Button } from '../Button';
 import { useState } from 'react';
 import authService from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/authSlice';
+// TODO: Add error support 
 export const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPasswordField, setShowPasswordField] = useState(false);
   const togglePasswordFieldVisibility = (e) => {
@@ -13,18 +17,21 @@ export const LoginForm = () => {
     setShowPasswordField(!showPasswordField);
   };
   const onLogin = async (data) => {
+    setLoading(true);
     try {
       const session = await authService.login(data);
       if (session) {
         const userData = await authService.getCurrentUser();
         if (userData) {
-          // dispatch
+          dispatch(login(userData));
           navigate('/');
         }
       }
     } catch (error) {
+      setLoading(false);
       throw new Error(error);
     }
+    setLoading(false);
   };
   const { handleSubmit, register } = useForm();
   return (
@@ -46,7 +53,9 @@ export const LoginForm = () => {
             placeholder={'Your Password'}
             {...register('password', { required: true })}
           />
-          <Button type='submit'>Submit</Button>
+          <Button loading={loading} type='submit'>
+            Submit
+          </Button>
         </div>
       )}
     </form>
