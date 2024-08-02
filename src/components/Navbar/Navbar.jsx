@@ -22,11 +22,13 @@ export const Navbar = () => {
         <img src={TwisterLogo} alt='Twister Logo' />
       </div>
 
-      <div className='flex gap-8 justify-center items-center'>
+      <div className='flex gap-12 justify-center items-center'>
         {navItems.map((navItem) => (
           <div key={navItem.url}>
             <Link
-              className={`font-bold ${navItem.active ? 'underline' : ''}`}
+              className={`text-nowrap font-bold ${
+                navItem.active ? 'underline' : ''
+              }`}
               to={navItem.url}
             >
               {navItem.name}
