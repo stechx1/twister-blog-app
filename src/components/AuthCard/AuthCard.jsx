@@ -19,7 +19,6 @@ export const AuthCard = ({ type }) => {
       <div className='text-gray-400 text-sm leading-4 mb-4'>OR</div>
       <GoogleButton
         onClick={() => {
-          console.log('clicked');
           authService.googleSignIn();
         }}
       />
