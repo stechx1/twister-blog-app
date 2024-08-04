@@ -3,6 +3,7 @@ import { GoogleButton } from '../GoogleButton/GoogleButton';
 import { LoginForm } from '../LoginForm';
 import { SignupForm } from '../SignupForm';
 import { Link } from 'react-router-dom';
+import authService from '../../services/auth';
 
 export const AuthCard = ({ type }) => {
   return (
@@ -16,7 +17,12 @@ export const AuthCard = ({ type }) => {
       </div>
 
       <div className='text-gray-400 text-sm leading-4 mb-4'>OR</div>
-      <GoogleButton />
+      <GoogleButton
+        onClick={() => {
+          console.log('clicked');
+          authService.googleSignIn();
+        }}
+      />
       {type === 'login' ? (
         <p className='text-primary mt-10'>
           Cant login?{' '}

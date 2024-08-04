@@ -1,5 +1,5 @@
-import {conf} from '../conf/conf';
-import { Client, Account, ID } from 'appwrite';
+import { conf } from '../conf/conf';
+import { Client, Account, ID, OAuthProvider } from 'appwrite';
 
 export class AuthService {
   client = new Client();
@@ -49,6 +49,18 @@ export class AuthService {
   async logout() {
     try {
       return await this.account.deleteSessions();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async googleSignIn() {
+    try {
+      return await this.account.createOAuth2Session(
+        OAuthProvider.Google,
+        conf.success_url,
+        conf.failure_url
+      );
     } catch (error) {
       throw new Error(error.message);
     }
