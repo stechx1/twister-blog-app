@@ -8,3 +8,4 @@ export * from './Input';
 export * from './GoogleButton';
 export * from './Spinner';
 export * from './Tag';
+export * from './Pagination';

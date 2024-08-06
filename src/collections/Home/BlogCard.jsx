@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 export const BlogCard = ({ imgSrc, authorName, date, title, para, tags }) => {
   return (
     <div className='flex flex-col max-w-[400px] gap-2'>
-      <img width={400} src={imgSrc} alt='img' />
+      <div className='w-full h-56 overflow-hidden'>
+        <img src={imgSrc} alt='img' className='w-full h-full object-cover' />
+      </div>
       <div className='flex gap-2 mt-4'>
         <p className='text-primary font-medium'>{authorName}</p>
         <p>.</p>

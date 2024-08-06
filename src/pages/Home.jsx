@@ -1,19 +1,8 @@
 import { BlogCard } from '../collections/Home/BlogCard';
-import { Button, Input } from '../components';
+import { Button, Input, Pagination } from '../components';
+import { blogs } from '../data/blogs';
 
 const Home = () => {
-  const tags = [
-    {
-      tagName: 'Management',
-      tagColor: '#F9F5FF',
-      textColor: '#6941C6',
-    },
-    {
-      tagName: 'Leadership',
-      tagColor: '#F8F9FC',
-      textColor: '#363F72',
-    },
-  ];
   return (
     <div className='container mx-auto'>
       {/* Hero section  */}
@@ -36,47 +25,25 @@ const Home = () => {
         </p>
       </div>
 
-      {/* Recent Blogs Section */}
+      {/* All Blogs Section */}
       <div>
-        <h2 className='font-medium text-xl '>Recent Blog Posts</h2>
+        <h2 className='font-medium text-xl mb-4'>All Blog Posts</h2>
         <div className='grid grid-cols-3 gap-4'>
-          <BlogCard
-            imgSrc={
-              'https://images.unsplash.com/photo-1722486110900-cfb036cf1830?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-            }
-            authorName={'Sana Saeed'}
-            date={'17 January 2025'}
-            title='Bill Walsh leadership lessons'
-            para={
-              'Like to know the secrets of transforming a 2-14 team into a 3x Super Bowl winning Dynasty?'
-            }
-            tags={tags}
-          />
-          <BlogCard
-            imgSrc={
-              'https://images.unsplash.com/photo-1722486110900-cfb036cf1830?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-            }
-            authorName={'Sana Saeed'}
-            date={'17 January 2025'}
-            title='Bill Walsh leadership lessons'
-            para={
-              'Like to know the secrets of transforming a 2-14 team into a 3x Super Bowl winning Dynasty?'
-            }
-            tags={tags}
-          />
-          <BlogCard
-            imgSrc={
-              'https://images.unsplash.com/photo-1722486110900-cfb036cf1830?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-            }
-            authorName={'Sana Saeed'}
-            date={'17 January 2025'}
-            title='Bill Walsh leadership lessons'
-            para={
-              'Like to know the secrets of transforming a 2-14 team into a 3x Super Bowl winning Dynasty?'
-            }
-            tags={tags}
-          />
+          {blogs.map((blog) => (
+            <BlogCard
+              key={blog.id}
+              imgSrc={blog.imgSrc}
+              authorName={blog.authorName}
+              date={blog.date}
+              title={blog.title}
+              para={blog.para}
+              tags={blog.tags}
+            />
+          ))}
         </div>
+      </div>
+      <div className='my-20'>
+        <Pagination />
       </div>
     </div>
   );
