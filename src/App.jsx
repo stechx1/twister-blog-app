@@ -11,17 +11,17 @@ function App() {
     <>
       <Navbar />
       <Outlet />
-      <button
+      {/* <button
         onClick={() => {
           authService.logout();
           navigate('/login');
         }}
       >
         logout
-      </button>
-      {console.log(authStatus)}
+      </button> */}
+      {/* {console.log(authStatus)}
       {authStatus && <div>Logged in: {userData?.name}</div>}
-      {userData?.email}
+      {userData?.email} */}
     </>
   );
 }

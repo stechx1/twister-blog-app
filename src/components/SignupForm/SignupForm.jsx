@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 import { useState } from 'react';
-// TODO: Add error support
+
 export const SignupForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

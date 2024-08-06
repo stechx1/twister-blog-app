@@ -7,12 +7,13 @@ import LoginPage from './pages/Login.jsx';
 import SignupPage from './pages/SignUp.jsx';
 import { Provider } from 'react-redux';
 import store from './store/store.js';
+import Home from './pages/Home.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    children: [],
+    children: [{ path: '/', element: <Home /> }],
   },
   {
     path: '/login',

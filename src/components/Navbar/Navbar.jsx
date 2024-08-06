@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TwisterLogo from '../../assets/twister-logo.svg';
 import { useState } from 'react';
 import { Button } from '../Button';
 
 export const Navbar = () => {
   const [authStatus] = useState(false);
+  const navigate = useNavigate();
   const navItems = !authStatus
     ? [
         { name: 'Home', url: '/', active: true },
@@ -17,7 +18,7 @@ export const Navbar = () => {
       ];
 
   return (
-    <div className='flex justify-between items-center'>
+    <div className='flex justify-between items-center container mx-auto'>
       <div>
         <img src={TwisterLogo} alt='Twister Logo' />
       </div>
@@ -40,7 +41,7 @@ export const Navbar = () => {
             <Button>Log Out</Button>
           </div>
         ) : (
-          <Button>Register / Login</Button>
+          <Button onClick={() => navigate('/login')}>Register / Login</Button>
         )}
       </div>
     </div>
