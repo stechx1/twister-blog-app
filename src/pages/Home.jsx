@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className='container mx-auto'>
       {/* Hero section  */}
-      <div className='flex flex-col justify-center items-center gap-4 my-12'>
+      <div className='flex flex-col justify-center items-center gap-4 my-16'>
         <h1 className='font-semibold text-4xl'>Blogs</h1>
         <p className='text-gray-500 font-light max-w-[600px] text-center'>
           Subscribe to learn about new product features, the latest in
@@ -28,7 +28,7 @@ const Home = () => {
       {/* All Blogs Section */}
       <div>
         <h2 className='font-medium text-xl mb-4'>All Blog Posts</h2>
-        <div className='grid grid-cols-3 gap-4'>
+        <div className='grid grid-cols-3 gap-x-4 gap-y-12'>
           {blogs.map((blog) => (
             <BlogCard
               key={blog.id}

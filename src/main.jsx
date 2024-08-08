@@ -8,12 +8,16 @@ import SignupPage from './pages/SignUp.jsx';
 import { Provider } from 'react-redux';
 import store from './store/store.js';
 import Home from './pages/Home.jsx';
+import Post from './pages/Post.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    children: [{ path: '/', element: <Home /> }],
+    children: [
+      { path: '/', element: <Home /> },
+      { path: 'post', element: <Post /> },
+    ],
   },
   {
     path: '/login',

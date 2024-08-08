@@ -1,9 +1,14 @@
+import { useNavigate } from 'react-router-dom';
 import { Tag } from '../../components';
 import PropTypes from 'prop-types';
 
 export const BlogCard = ({ imgSrc, authorName, date, title, para, tags }) => {
+  const navigate = useNavigate();
   return (
-    <div className='flex flex-col max-w-[400px] gap-2'>
+    <div
+      onClick={() => navigate('post')}
+      className='flex flex-col max-w-[400px] gap-2 cursor-pointer'
+    >
       <div className='w-full h-56 overflow-hidden'>
         <img src={imgSrc} alt='img' className='w-full h-full object-cover' />
       </div>
