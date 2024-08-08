@@ -1,27 +1,25 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Navbar } from './components';
-import { useSelector } from 'react-redux';
 import authService from './services/auth';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { login, logout } from './store/authSlice';
 
 function App() {
-  const navigate = useNavigate();
-  const authStatus = useSelector((state) => state.auth.status);
-  const userData = useSelector((state) => state.auth.userData);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    authService.getCurrentUser().then((userData) => {
+      if (userData) {
+        dispatch(login(userData));
+      } else {
+        dispatch(logout());
+      }
+    });
+  }, [dispatch]);
   return (
     <>
       <Navbar />
       <Outlet />
-      {/* <button
-        onClick={() => {
-          authService.logout();
-          navigate('/login');
-        }}
-      >
-        logout
-      </button> */}
-      {/* {console.log(authStatus)}
-      {authStatus && <div>Logged in: {userData?.name}</div>}
-      {userData?.email} */}
     </>
   );
 }

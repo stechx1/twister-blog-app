@@ -1,11 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom';
 import TwisterLogo from '../../assets/twister-logo.svg';
-import { useState } from 'react';
 import { Button } from '../Button';
+import { useDispatch, useSelector } from 'react-redux';
+import authService from '../../services/auth';
+import { logout } from '../../store/authSlice';
 
 export const Navbar = () => {
-  const [authStatus] = useState(false);
+  const authStatus = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    authService.logout().then(() => {
+      dispatch(logout());
+      navigate('/login');
+    });
+  };
   const navItems = !authStatus
     ? [
         { name: 'Home', url: '/', active: true },
@@ -38,7 +47,7 @@ export const Navbar = () => {
         ))}
         {authStatus ? (
           <div>
-            <Button>Log Out</Button>
+            <Button onClick={handleLogout}>Log Out</Button>
           </div>
         ) : (
           <Button onClick={() => navigate('/login')}>Register / Login</Button>
