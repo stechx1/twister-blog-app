@@ -46,7 +46,7 @@ export const AddPostForm = () => {
         <Input
           type='file'
           label='Featured Image'
-          {...register('image', { required: true })}
+          {...register('featuredImg', { required: true })}
         />
       </div>
       <div className='flex gap-8'>
