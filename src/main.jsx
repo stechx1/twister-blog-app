@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import store from './store/store.js';
 import Home from './pages/Home.jsx';
 import Post from './pages/Post.jsx';
+import CreateBlog from './pages/CreateBlog.jsx';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <Home /> },
       { path: 'post', element: <Post /> },
+      { path: '/create-blog', element: <CreateBlog /> },
     ],
   },
   {

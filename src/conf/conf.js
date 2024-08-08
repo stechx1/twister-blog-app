@@ -6,4 +6,5 @@ export const conf = {
   appwriteBucketId: import.meta.env.VITE_APPWRITE_BUCKET_ID,
   success_url: import.meta.env.VITE_SUCESS_URL,
   failure_url: import.meta.env.VITE_FAILURE_URL,
+  tiny_mce_api_key : import.meta.env.VITE_TINYMCE_API_KEY
 };

@@ -9,3 +9,4 @@ export * from './GoogleButton';
 export * from './Spinner';
 export * from './Tag';
 export * from './Pagination';
+export * from './AddPostForm';
