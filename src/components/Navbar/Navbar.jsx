@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import TwisterLogo from '../../assets/twister-logo.svg';
 import { Button } from '../Button';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,17 +17,17 @@ export const Navbar = () => {
   };
   const navItems = !authStatus
     ? [
-        { name: 'Home', url: '/', active: true },
+        { name: 'Home', url: '/'},
         // { name: 'All Blogs', url: '/all-blogs', active: false },
       ]
     : [
-        { name: 'Home', url: '/', active: true },
+        { name: 'Home', url: '/'},
         // { name: 'All Blogs', url: '/all-blogs', active: false },
-        { name: 'Create Blog', url: '/create-blog', active: false },
+        { name: 'Create Blog', url: '/create-blog'},
       ];
 
   return (
-    <div className='flex justify-between items-center container mx-auto'>
+    <div className='flex justify-between items-center container mx-auto my-2'>
       <div>
         <img src={TwisterLogo} alt='Twister Logo' />
       </div>
@@ -35,14 +35,16 @@ export const Navbar = () => {
       <div className='flex gap-12 justify-center items-center'>
         {navItems.map((navItem) => (
           <div key={navItem.url}>
-            <Link
-              className={`text-nowrap font-bold ${
-                navItem.active ? 'underline' : ''
-              }`}
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? 'underline text-nowrap font-bold'
+                  : 'text-nowrap font-bold'
+              }
               to={navItem.url}
             >
               {navItem.name}
-            </Link>
+            </NavLink>
           </div>
         ))}
         {authStatus ? (
