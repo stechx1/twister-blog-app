@@ -12,17 +12,17 @@ export const Navbar = () => {
   const handleLogout = () => {
     authService.logout().then(() => {
       dispatch(logout());
-      navigate('/login');
+      // navigate('/login');
     });
   };
   const navItems = !authStatus
     ? [
         { name: 'Home', url: '/', active: true },
-        { name: 'All Blogs', url: '/all-blogs', active: false },
+        // { name: 'All Blogs', url: '/all-blogs', active: false },
       ]
     : [
         { name: 'Home', url: '/', active: true },
-        { name: 'All Blogs', url: '/all-blogs', active: false },
+        // { name: 'All Blogs', url: '/all-blogs', active: false },
         { name: 'Create Blog', url: '/create-blog', active: false },
       ];
 
