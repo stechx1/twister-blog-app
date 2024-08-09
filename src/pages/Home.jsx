@@ -3,13 +3,29 @@ import { BlogCard } from '../collections/Home/BlogCard';
 import { Button, Input, Pagination } from '../components';
 import { blogs } from '../data/blogs';
 import toast, { Toaster } from 'react-hot-toast';
+import { useEffect, useState } from 'react';
+import service from '../services/service';
 
 const Home = () => {
   const { register, handleSubmit } = useForm();
+  const [posts, setPosts] = useState([]);
   const onSubscribe = (data) => {
     console.log(data.email);
     toast.success(`${data.email} Subscibed Successfully`);
   };
+  useEffect(() => {
+    const getAllPosts = async () => {
+      try {
+        const posts = await service.getAllPosts();
+        setPosts(posts.documents);
+        console.log(posts);
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+    getAllPosts();
+  }, []);
+
   return (
     <div className='container mx-auto'>
       <div>
@@ -44,17 +60,21 @@ const Home = () => {
       <div>
         <h2 className='font-medium text-xl mb-4'>All Blog Posts</h2>
         <div className='grid grid-cols-3 gap-x-4 gap-y-12'>
-          {blogs.map((blog) => (
-            <BlogCard
-              key={blog.id}
-              imgSrc={blog.imgSrc}
-              authorName={blog.authorName}
-              date={blog.date}
-              title={blog.title}
-              para={blog.para}
-              tags={blog.tags}
-            />
-          ))}
+          {posts &&
+            posts.map((blog) => (
+              <BlogCard
+                slug={blog?.$id}
+                key={blog?.$id}
+                imgSrc={
+                  blog?.featuredImg && service.getFilePreview(blog?.featuredImg)
+                }
+                authorName={blog?.authorName}
+                date={blog?.date}
+                title={blog?.title}
+                para={blog?.para}
+                tags={blog?.tags}
+              />
+            ))}
         </div>
       </div>
       <div className='my-20'>

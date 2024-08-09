@@ -2,11 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import { Tag } from '../../components';
 import PropTypes from 'prop-types';
 
-export const BlogCard = ({ imgSrc, authorName, date, title, para, tags }) => {
+export const BlogCard = ({ imgSrc, authorName, date, title, para, tags, slug }) => {
   const navigate = useNavigate();
   return (
     <div
-      onClick={() => navigate('post')}
+      onClick={() => navigate(`post/${slug}`)}
       className='flex flex-col max-w-[400px] gap-2 cursor-pointer'
     >
       <div className='w-full h-56 overflow-hidden'>
@@ -40,6 +40,7 @@ BlogCard.propTypes = {
   date: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   para: PropTypes.string.isRequired,
+  slug: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(
     PropTypes.shape({
       tagName: PropTypes.string.isRequired,

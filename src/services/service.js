@@ -97,8 +97,8 @@ export class Service {
     }
   }
 
-  async getFilePreview(fileId){
-    return await this.storage.getFilePreview(conf.appwriteBucketId, fileId)
+   getFilePreview(fileId){
+    return  this.storage.getFilePreview(conf.appwriteBucketId, fileId)
   }
 }
 
