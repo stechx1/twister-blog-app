@@ -12,23 +12,23 @@ export const Navbar = () => {
   const handleLogout = () => {
     authService.logout().then(() => {
       dispatch(logout());
-      // navigate('/login');
+      navigate('/');
     });
   };
   const navItems = !authStatus
     ? [
-        { name: 'Home', url: '/'},
+        { name: 'Home', url: '/' },
         // { name: 'All Blogs', url: '/all-blogs', active: false },
       ]
     : [
-        { name: 'Home', url: '/'},
+        { name: 'Home', url: '/' },
         // { name: 'All Blogs', url: '/all-blogs', active: false },
-        { name: 'Create Blog', url: '/create-blog'},
+        { name: 'Create Blog', url: '/create-blog' },
       ];
 
   return (
     <div className='flex justify-between items-center container mx-auto my-2'>
-      <div>
+      <div className='cursor-pointer' onClick={() => navigate('/')}>
         <img src={TwisterLogo} alt='Twister Logo' />
       </div>
 

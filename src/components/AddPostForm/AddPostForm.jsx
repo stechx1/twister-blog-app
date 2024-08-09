@@ -3,12 +3,40 @@ import { Input } from '../Input';
 import { Toggle } from '../Input/Toggle';
 import { Button } from '../Button';
 import { TinyMCE } from '../TinyMCE/TinyMCE';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import service from '../../services/service';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export const AddPostForm = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.auth.userData);
   const { register, handleSubmit, control, watch, setValue } = useForm();
-  const onPostSubmit = (data) => {
-    console.log(data);
+
+  const onPostSubmit = async (data) => {
+    setError('');
+    setLoading(true);
+    try {
+      const file = await service.uploadFile(data?.featuredImg[0]);
+      if (file) {
+        console.log('inside File');
+        const postDb = await service.createPost({
+          ...data,
+          featuredImg: file.$id,
+          userId: userData?.$id,
+        });
+        if (postDb) {
+          navigate(`/post/${postDb.$id}`);
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+      throw new Error(error);
+    }
   };
 
   const slugTransform = useCallback((value) => {
@@ -56,7 +84,7 @@ export const AddPostForm = () => {
           label='Slug'
           {...register('slug', { required: true })}
         />
-        <Toggle label={'Active'} {...register("active")} />
+        <Toggle label={'Active'} {...register('active')} />
       </div>
       <div>
         <TinyMCE
@@ -66,8 +94,16 @@ export const AddPostForm = () => {
         />
       </div>
 
+      {error && (
+        <div>
+          <p className='text-red-500 text-xs pb-2 '>{error}</p>
+        </div>
+      )}
+
       <div>
-        <Button type='submit'>Submit</Button>
+        <Button loading={loading} type='submit'>
+          Submit
+        </Button>
       </div>
     </form>
   );
