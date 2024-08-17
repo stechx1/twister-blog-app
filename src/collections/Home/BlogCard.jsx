@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Tag } from '../../components';
 import PropTypes from 'prop-types';
 
-export const BlogCard = ({ imgSrc, authorName, date, title, para, tags, slug }) => {
+export const BlogCard = ({ imgSrc, authorName='', date, title, para, tags, slug }) => {
   const navigate = useNavigate();
   return (
     <div

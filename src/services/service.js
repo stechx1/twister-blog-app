@@ -14,13 +14,22 @@ export class Service {
     this.storage = new Storage(this.client);
   }
 
-  async createPost({ title, slug, content, featuredImg, active, userId }) {
+  async createPost({
+    title,
+    slug,
+    content,
+    featuredImg,
+    active,
+    description,
+    authorName,
+    userId,
+  }) {
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
         slug,
-        { title, content, featuredImg, active, userId }
+        { title, content, featuredImg, active, description, authorName, userId }
       );
     } catch (error) {
       throw new Error(error);
@@ -32,7 +41,8 @@ export class Service {
       return await this.databases.listDocuments(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
-        []
+        [],
+      
       );
     } catch (error) {
       throw new Error(error);
@@ -51,14 +61,14 @@ export class Service {
     }
   }
 
-  async updatePost({ title, slug, featuredImg, content, active }) {
+  async updatePost({ title, slug, featuredImg, content, active, authorName, description }) {
     try {
       return await this.databases.updateDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
         conf.appwriteDatabaseId,
         slug,
-        { title, featuredImg, content, active }
+        { title, featuredImg, content, active, authorName, description }
       );
     } catch (error) {
       throw new Error(error);
@@ -88,17 +98,17 @@ export class Service {
       throw new Error(error);
     }
   }
-  
-  async deleteFile(fileId){
+
+  async deleteFile(fileId) {
     try {
-      return await this.storage.deleteFile(conf.appwriteBucketId, fileId)
+      return await this.storage.deleteFile(conf.appwriteBucketId, fileId);
     } catch (error) {
-      throw new Error(error)
+      throw new Error(error);
     }
   }
 
-   getFilePreview(fileId){
-    return  this.storage.getFilePreview(conf.appwriteBucketId, fileId)
+  getFilePreview(fileId) {
+    return this.storage.getFilePreview(conf.appwriteBucketId, fileId);
   }
 }
 

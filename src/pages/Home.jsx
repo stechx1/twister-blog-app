@@ -1,16 +1,15 @@
 import { useForm } from 'react-hook-form';
 import { BlogCard } from '../collections/Home/BlogCard';
-import { Button, Input, Pagination } from '../components';
-import { blogs } from '../data/blogs';
+import { Button, Input } from '../components';
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import service from '../services/service';
+import authService from '../services/auth';
 
 const Home = () => {
   const { register, handleSubmit } = useForm();
   const [posts, setPosts] = useState([]);
   const onSubscribe = (data) => {
-    console.log(data.email);
     toast.success(`${data.email} Subscibed Successfully`);
   };
   useEffect(() => {
@@ -18,7 +17,9 @@ const Home = () => {
       try {
         const posts = await service.getAllPosts();
         setPosts(posts.documents);
-        console.log(posts);
+        const author = await authService.getUserById(posts.documents.userId)
+        console.log(author);
+        console.log(posts.documents);
       } catch (error) {
         throw new Error(error);
       }
@@ -61,25 +62,35 @@ const Home = () => {
         <h2 className='font-medium text-xl mb-4'>All Blog Posts</h2>
         <div className='grid grid-cols-3 gap-x-4 gap-y-12'>
           {posts &&
-            posts.map((blog) => (
-              <BlogCard
-                slug={blog?.$id}
-                key={blog?.$id}
-                imgSrc={
-                  blog?.featuredImg && service.getFilePreview(blog?.featuredImg)
-                }
-                authorName={blog?.authorName}
-                date={blog?.date}
-                title={blog?.title}
-                para={blog?.para}
-                tags={blog?.tags}
-              />
-            ))}
+            posts.map((blog) => {
+              const formattedDate = new Date(
+                blog?.$createdAt
+              ).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: '2-digit',
+              });
+              return (
+                <BlogCard
+                  slug={blog?.$id}
+                  key={blog?.$id}
+                  imgSrc={
+                    blog?.featuredImg &&
+                    service.getFilePreview(blog?.featuredImg)
+                  }
+                  authorName={blog?.authorName}
+                  date={formattedDate}
+                  title={blog?.title}
+                  para={blog?.description}
+                  tags={blog?.tags}
+                />
+              );
+            })}
         </div>
       </div>
-      <div className='my-20'>
+      {/* <div className='my-20'>
         <Pagination />
-      </div>
+      </div> */}
     </div>
   );
 };

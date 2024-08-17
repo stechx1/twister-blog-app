@@ -21,7 +21,6 @@ export const AddPostForm = () => {
     try {
       const file = await service.uploadFile(data?.featuredImg[0]);
       if (file) {
-        console.log('inside File');
         const postDb = await service.createPost({
           ...data,
           featuredImg: file.$id,
@@ -86,6 +85,22 @@ export const AddPostForm = () => {
         />
         <Toggle label={'Active'} {...register('active')} />
       </div>
+
+      <div className='flex gap-8'>
+        <Input
+          type='text'
+          placeholder='Enter Auhor Name'
+          label='Auhtor Name'
+          {...register('authorName', { required: true })}
+        />
+        <Input
+          type='text'
+          placeholder='Enter Description'
+          label='Description'
+          {...register('description', { required: true })}
+        />
+      </div>
+
       <div>
         <TinyMCE
           label={'Content'}
