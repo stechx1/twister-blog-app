@@ -4,16 +4,22 @@ import { Button } from '../Button';
 import { useDispatch, useSelector } from 'react-redux';
 import authService from '../../services/auth';
 import { logout } from '../../store/authSlice';
+import { useState } from 'react';
 
 export const Navbar = () => {
   const authStatus = useSelector((state) => state.auth.status);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
-    authService.logout().then(() => {
-      dispatch(logout());
-      navigate('/login');
-    });
+    authService
+      .logout()
+      .then(() => {
+        setLoading(true);
+        dispatch(logout());
+        navigate('/login');
+      })
+      .finally(() => setLoading(false));
   };
   const navItems = !authStatus
     ? [
@@ -49,7 +55,9 @@ export const Navbar = () => {
         ))}
         {authStatus ? (
           <div>
-            <Button onClick={handleLogout}>Log Out</Button>
+            <Button loading={loading} onClick={handleLogout}>
+              Log Out
+            </Button>
           </div>
         ) : (
           <Button onClick={() => navigate('/login')}>Register / Login</Button>

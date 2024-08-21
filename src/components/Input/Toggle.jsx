@@ -2,10 +2,10 @@
 import { useId, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
-export const Toggle = forwardRef(({ label, ...props }, ref) => {
+export const Toggle = forwardRef(({ hide, label, ...props }, ref) => {
   const id = useId();
   return (
-    <div className='w-full'>
+    <div className={`${hide? "invisible": ""} w-full`}>
       {label && (
         <label
           className='inline-block mb-3 pl-1 font-semibold text-lg'
@@ -30,5 +30,6 @@ export const Toggle = forwardRef(({ label, ...props }, ref) => {
 });
 
 Toggle.propTypes = {
+  hide: PropTypes.bool,
   label: PropTypes.string,
 };

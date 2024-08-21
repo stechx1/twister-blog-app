@@ -36,14 +36,10 @@ const ProtectedRoute = ({ element }) => {
   }, [dispatch, isAuthenticated]);
 
   useEffect(() => {
-    if (!isLoading) {
-      if (!isAuthenticated) {
-        navigate('/login');
-      } else {
-        navigate('/');
-      }
+    if (!isAuthenticated) {
+      navigate('/login');
     }
-  }, [isAuthenticated, isLoading, navigate]);
+  }, [isAuthenticated, navigate]);
 
   if (isLoading) {
     return <h1>Loading....</h1>; // Show loading state

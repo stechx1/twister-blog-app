@@ -9,6 +9,7 @@ import service from '../../services/service';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import PlaceholderImage from '../../assets/PlaceholderImage.jpg';
 
 export const AddPostForm = ({ postData }) => {
   const [loading, setLoading] = useState(false);
@@ -48,22 +49,22 @@ export const AddPostForm = ({ postData }) => {
     if (postData) {
       try {
         if (typeof data.featuredImg !== 'string') {
-          console.log("Type is not string");
+          console.log('Type is not string');
           file = data.featuredImg[0]
-          ? await service.uploadFile(data.featuredImg[0])
-          : null;
+            ? await service.uploadFile(data.featuredImg[0])
+            : null;
           if (file) {
             const response = await service.deleteFile(postData.featuredImg);
             console.log(response);
           }
         }
-        console.log("Type is string");
+        console.log('Type is string');
         const postDb = await service.updatePost(postData.$id, {
           ...data,
           featuredImg: file ? file.$id : data.featuredImg,
         });
         if (postDb) {
-          toast.success("Updated successfully")
+          toast.success('Updated successfully');
           navigate(`/post/${postDb.$id}`);
           setLoading(false);
         }
@@ -83,7 +84,7 @@ export const AddPostForm = ({ postData }) => {
             userId: userData?.$id,
           });
           if (postDb) {
-            toast.success("Post Created successfully")
+            toast.success('Post Created successfully');
             navigate(`/post/${postDb.$id}`);
             setLoading(false);
           }
@@ -136,23 +137,32 @@ export const AddPostForm = ({ postData }) => {
           <Input
             type='file'
             label='Featured Image'
+            accept='image/*'
             {...register('featuredImg')}
           />
 
           {postData &&
-            postData.featuredImg &&
-            postData.featuredImg.trim() != '' && (
-              <div>
-                <img
-                  width={100}
-                  src={service.getFilePreview(postData.featuredImg)}
-                  alt='image'
-                  className='rounded-lg'
-                />
-              </div>
-            )}
+          postData.featuredImg &&
+          postData.featuredImg.trim() != '' ? (
+            <div>
+              <img
+                width={100}
+                src={service.getFilePreview(postData.featuredImg)}
+                alt='image'
+                className='rounded-lg'
+              />
+            </div>
+          ) : (
+            <img
+              width={100}
+              src={PlaceholderImage}
+              alt='placeholder'
+              className='rounded-lg opacity-50'
+            />
+          )}
         </div>
       </div>
+
       <div className='flex gap-8'>
         <Input
           type='text'
@@ -168,7 +178,7 @@ export const AddPostForm = ({ postData }) => {
             );
           }}
         />
-        <Toggle label={'Active'} {...register('active')} />
+        <Toggle hide label={'Active'} {...register('active')} />
       </div>
 
       <div className='flex gap-8'>
