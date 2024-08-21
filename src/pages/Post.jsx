@@ -4,10 +4,12 @@ import service from '../services/service';
 import parse from 'html-react-parser';
 import { useSelector } from 'react-redux';
 import { Button } from '../components';
+import { Modal } from '../components/Modal/Modal';
 
 const Post = () => {
   const [postData, setPostData] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
+  const [openModal, setOpenModal] = useState(false);
   const { slug } = useParams();
   const userData = useSelector((state) => state.auth.userData);
 
@@ -29,8 +31,15 @@ const Post = () => {
 
   const deletePost = async () => {
     try {
-      await service.deletePost(postData?.$id);
-      navigate('/');
+      const response = await service.deleteFile(postData?.featuredImg);
+      if (response) {
+        try {
+          await service.deletePost(postData?.$id);
+          navigate('/');
+        } catch (error) {
+          console.log(error);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -51,7 +60,12 @@ const Post = () => {
             <div className='flex justify-center items-center my-8'>
               <div className='flex gap-4'>
                 <Button state='secondary'>Edit</Button>
-                <Button onClick={deletePost} className='bg-red-500 hover:bg-red-600'>Delete</Button>
+                <Button
+                  onClick={() => setOpenModal(true)}
+                  className='bg-red-500 hover:bg-red-600'
+                >
+                  Delete
+                </Button>
               </div>
             </div>
           )}
@@ -65,6 +79,14 @@ const Post = () => {
                 : 'Loading content...'}
             </div>
           </div>
+          <Modal
+            open={openModal}
+            setOpen={setOpenModal}
+            title={'Delete Post'}
+            content={'Do you really want to delete the post? '}
+            okButtonText={'Delete'}
+            okButtonAction={deletePost}
+          />
         </>
       ) : (
         <div>Loading post data...</div>
