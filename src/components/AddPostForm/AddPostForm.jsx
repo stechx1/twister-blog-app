@@ -83,11 +83,13 @@ export const AddPostForm = ({ postData }) => {
             userId: userData?.$id,
           });
           if (postDb) {
+            toast.success("Post Created successfully")
             navigate(`/post/${postDb.$id}`);
             setLoading(false);
           }
         }
       } catch (error) {
+        toast.error(error);
         setError(error.message);
         setLoading(false);
         throw new Error(error);

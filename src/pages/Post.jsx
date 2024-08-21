@@ -25,6 +25,7 @@ const Post = () => {
         const img = await service.getFilePreview(data.featuredImg);
         setImageUrl(img);
       } catch (error) {
+        toast.error(error.message);
         throw new Error(error);
       }
     };

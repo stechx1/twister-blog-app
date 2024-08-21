@@ -12,7 +12,7 @@ export const Navbar = () => {
   const handleLogout = () => {
     authService.logout().then(() => {
       dispatch(logout());
-      navigate('/');
+      navigate('/login');
     });
   };
   const navItems = !authStatus

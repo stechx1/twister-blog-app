@@ -6,6 +6,7 @@ import authService from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
+import toast from 'react-hot-toast';
 
 export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
@@ -25,11 +26,13 @@ export const LoginForm = () => {
       if (session) {
         const userData = await authService.getCurrentUser();
         if (userData) {
+          toast.success('Logged in successfully');
           dispatch(login(userData));
           navigate('/');
         }
       }
     } catch (error) {
+      toast.error(error);
       setError(error.message);
       setLoading(false);
       throw new Error(error);

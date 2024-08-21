@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export const SignupForm = () => {
   const [loading, setLoading] = useState(false);
@@ -21,10 +22,12 @@ export const SignupForm = () => {
       if (userData) {
         const userInfo = await authService.getCurrentUser();
         setLoading(false);
+        toast.success("Signed Up Successfully")
         dispatch(login(userInfo));
         navigate('/');
       }
     } catch (error) {
+      toast.error(error.message)
       setError(error.message);
       setLoading(false);
       throw new Error(error);

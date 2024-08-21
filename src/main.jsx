@@ -11,16 +11,25 @@ import Home from './pages/Home.jsx';
 import Post from './pages/Post.jsx';
 import CreateBlog from './pages/CreateBlog.jsx';
 import EditPostPage from './pages/EditPost.jsx';
+import ProtectedRoute from './pages/ProtectedRoute.jsx';
+import ErrorPage from './pages/ErrorPage.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    // errorElement: <ErrorPage />,
     children: [
-      { path: '/', element: <Home /> },
-      { path: '/post/:slug', element: <Post /> },
-      { path: '/create-blog', element: <CreateBlog /> },
-      { path: '/edit/:slug', element: <EditPostPage /> },
+      { path: '/', element: <ProtectedRoute element={<Home />} /> },
+      { path: '/post/:slug', element: <ProtectedRoute element={<Post />} /> },
+      {
+        path: '/create-blog',
+        element: <ProtectedRoute element={<CreateBlog />} />,
+      },
+      {
+        path: '/edit/:slug',
+        element: <ProtectedRoute element={<EditPostPage />} />,
+      },
     ],
   },
   {
