@@ -7,9 +7,14 @@ const EditPostPage = () => {
   const { postData } = usePostData(slug);
 
   return (
-    // TODO: Enter title and styling
-    <div>
-      <AddPostForm postData={postData} />
+    <div className='container mx-auto'>
+      <div className='my-10'>
+        <h1 className='text-3xl font-semibold text-center'>Edit Blog</h1>
+      </div>
+
+      <div className=''>
+        <AddPostForm postData={postData} />
+      </div>
     </div>
   );
 };

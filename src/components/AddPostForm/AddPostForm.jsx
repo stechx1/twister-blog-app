@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from 'react';
 import service from '../../services/service';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export const AddPostForm = ({ postData }) => {
   const [loading, setLoading] = useState(false);
@@ -41,26 +42,33 @@ export const AddPostForm = ({ postData }) => {
   }, [postData, reset]);
 
   const onPostSubmit = async (data) => {
+    let file = null;
     setError('');
     setLoading(true);
     if (postData) {
       try {
-        const file = data.featuredImg[0]
+        if (typeof data.featuredImg !== 'string') {
+          console.log("Type is not string");
+          file = data.featuredImg[0]
           ? await service.uploadFile(data.featuredImg[0])
           : null;
-        if (file) {
-          const response = await service.deleteFile(postData.featuredImg)
-          console.log(response);
+          if (file) {
+            const response = await service.deleteFile(postData.featuredImg);
+            console.log(response);
+          }
         }
+        console.log("Type is string");
         const postDb = await service.updatePost(postData.$id, {
           ...data,
-          featuredImg: file ? file.$id : undefined,
+          featuredImg: file ? file.$id : data.featuredImg,
         });
         if (postDb) {
+          toast.success("Updated successfully")
           navigate(`/post/${postDb.$id}`);
           setLoading(false);
         }
       } catch (error) {
+        toast.error(error);
         setError(error.message);
         setLoading(false);
         throw new Error(error);
@@ -113,17 +121,35 @@ export const AddPostForm = ({ postData }) => {
   return (
     <form className='space-y-8' onSubmit={handleSubmit(onPostSubmit)}>
       <div className='flex gap-8'>
-        <Input
-          type='text'
-          placeholder='Enter Title'
-          label='Title'
-          {...register('title', { required: true })}
-        />
-        <Input
-          type='file'
-          label='Featured Image'
-          {...register('featuredImg', { required: true })}
-        />
+        <div className='flex-1'>
+          <Input
+            type='text'
+            placeholder='Enter Title'
+            label='Title'
+            {...register('title', { required: true })}
+          />
+        </div>
+
+        <div className='flex justify-center items-center'>
+          <Input
+            type='file'
+            label='Featured Image'
+            {...register('featuredImg')}
+          />
+
+          {postData &&
+            postData.featuredImg &&
+            postData.featuredImg.trim() != '' && (
+              <div>
+                <img
+                  width={100}
+                  src={service.getFilePreview(postData.featuredImg)}
+                  alt='image'
+                  className='rounded-lg'
+                />
+              </div>
+            )}
+        </div>
       </div>
       <div className='flex gap-8'>
         <Input
@@ -131,6 +157,14 @@ export const AddPostForm = ({ postData }) => {
           placeholder='Enter Slug'
           label='Slug'
           {...register('slug', { required: true })}
+          onInput={(e) => {
+            setValue(
+              'slug',
+              slugTransform(e.currentTarget.value, {
+                shouldValidate: true,
+              })
+            );
+          }}
         />
         <Toggle label={'Active'} {...register('active')} />
       </div>
