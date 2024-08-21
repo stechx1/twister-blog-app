@@ -1,13 +1,15 @@
 import { useForm } from 'react-hook-form';
 import { BlogCard } from '../collections/Home/BlogCard';
-import { Button, Input } from '../components';
+import { Button, EmptyState, Input } from '../components';
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import service from '../services/service';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const { register, handleSubmit } = useForm();
   const [posts, setPosts] = useState([]);
+  const navigate = useNavigate()
   const onSubscribe = (data) => {
     toast.success(`${data.email} Subscibed Successfully`);
   };
@@ -17,7 +19,8 @@ const Home = () => {
         const posts = await service.getAllPosts();
         setPosts(posts.documents);
       } catch (error) {
-        throw new Error(error);
+        console.error(error);
+        toast.error('Failed to fetch posts');
       }
     };
     getAllPosts();
@@ -56,6 +59,7 @@ const Home = () => {
       {/* All Blogs Section */}
       <div>
         <h2 className='font-medium text-xl mb-4'>All Blog Posts</h2>
+
         <div className='grid grid-cols-3 gap-x-4 gap-y-12'>
           {posts &&
             posts.map((blog) => {
@@ -83,6 +87,15 @@ const Home = () => {
               );
             })}
         </div>
+        {posts?.length <= 0 && (
+          <div className='flex justify-center items-center my-8'>
+            <EmptyState
+              title='No Blogs Yet'
+              content='Click the button to get started adding new blogs'
+              buttonText='Create' buttonAction={() => navigate("/create-blog")}
+            />
+          </div>
+        )}
       </div>
       {/* <div className='my-20'>
         <Pagination />

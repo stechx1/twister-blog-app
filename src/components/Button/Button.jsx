@@ -17,7 +17,7 @@ export const Button = ({
       {!loading && children}
     </button>
   ) : (
-    <button {...props} className='bg-white text-primary border border-primary w-full py-3 px-5 rounded-2xl flex justify-center items-center hover:bg-primary hover:text-white'>
+    <button {...props} className={`${className} bg-white text-primary border border-primary w-full py-3 px-5 rounded-2xl flex justify-center items-center hover:bg-primary hover:text-white`}>
       {children}
     </button>
   );

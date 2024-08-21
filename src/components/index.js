@@ -10,3 +10,4 @@ export * from './Spinner';
 export * from './Tag';
 export * from './Pagination';
 export * from './AddPostForm';
+export * from './EmptyState';

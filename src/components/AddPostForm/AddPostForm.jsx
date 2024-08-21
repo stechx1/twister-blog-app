@@ -116,7 +116,7 @@ export const AddPostForm = () => {
       )}
 
       <div>
-        <Button loading={loading} type='submit'>
+        <Button loading={loading} type='submit' className='w-52'>
           Submit
         </Button>
       </div>
