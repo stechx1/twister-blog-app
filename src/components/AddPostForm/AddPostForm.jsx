@@ -49,7 +49,6 @@ export const AddPostForm = ({ postData }) => {
     if (postData) {
       try {
         if (typeof data.featuredImg !== 'string') {
-          console.log('Type is not string');
           file = data.featuredImg[0]
             ? await service.uploadFile(data.featuredImg[0])
             : null;
@@ -58,7 +57,6 @@ export const AddPostForm = ({ postData }) => {
             console.log(response);
           }
         }
-        console.log('Type is string');
         const postDb = await service.updatePost(postData.$id, {
           ...data,
           featuredImg: file ? file.$id : data.featuredImg,
@@ -133,7 +131,7 @@ export const AddPostForm = ({ postData }) => {
           />
         </div>
 
-        <div className='flex justify-center items-center'>
+        <div className='md:flex justify-center items-center flex-1'>
           <Input
             type='file'
             label='Featured Image'

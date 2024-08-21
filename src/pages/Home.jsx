@@ -37,7 +37,7 @@ const Home = () => {
           technology, solutions, and updates.
         </p>
         <form onSubmit={handleSubmit(onSubscribe)}>
-          <div className='flex gap-4 w-[600px]'>
+          <div className='flex gap-4 md:w-[600px]'>
             <Input
               className='w-full'
               type='email'
@@ -58,7 +58,7 @@ const Home = () => {
       <div>
         <h2 className='font-medium text-xl mb-4'>All Blog Posts</h2>
 
-        <div className='grid grid-cols-3 gap-x-4 gap-y-12'>
+        <div className='grid md:grid-cols-3 md:gap-x-4 gap-y-12'>
           {posts &&
             posts.map((blog) => {
               const formattedDate = new Date(
