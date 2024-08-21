@@ -4,7 +4,6 @@ import { Button, Input } from '../components';
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import service from '../services/service';
-import authService from '../services/auth';
 
 const Home = () => {
   const { register, handleSubmit } = useForm();
@@ -17,9 +16,6 @@ const Home = () => {
       try {
         const posts = await service.getAllPosts();
         setPosts(posts.documents);
-        const author = await authService.getUserById(posts.documents.userId)
-        console.log(author);
-        console.log(posts.documents);
       } catch (error) {
         throw new Error(error);
       }

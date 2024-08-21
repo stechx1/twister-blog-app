@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import service from '../services/service';
 import parse from 'html-react-parser';
+import { useSelector } from 'react-redux';
+import { Button } from '../components';
 
 const Post = () => {
   const [postData, setPostData] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
   const { slug } = useParams();
+  const userData = useSelector((state) => state.auth.userData);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPostData = async () => {
@@ -22,6 +27,15 @@ const Post = () => {
     getPostData();
   }, [slug]);
 
+  const deletePost = async () => {
+    try {
+      await service.deletePost(postData?.$id);
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       {postData ? (
@@ -33,6 +47,14 @@ const Post = () => {
               className='w-full h-full object-cover'
             />
           </div>
+          {userData?.$id === postData.userId && (
+            <div className='flex justify-center items-center my-8'>
+              <div className='flex gap-4'>
+                <Button state='secondary'>Edit</Button>
+                <Button onClick={deletePost} className='bg-red-500 hover:bg-red-600'>Delete</Button>
+              </div>
+            </div>
+          )}
           <div className='my-8 container mx-auto'>
             <h2 className='text-3xl font-semibold text-center'>
               {postData.title}

@@ -11,13 +11,13 @@ export const Button = ({
   return state === 'primary' ? (
     <button
       {...props}
-      className={`${className} bg-primary text-white w-full py-3 px-5 rounded-2xl flex justify-center items-center`}
+      className={`${className} bg-primary text-white w-full py-3 px-5 rounded-2xl flex justify-center items-center hover:bg-primary`}
     >
       {loading && <Spinner />}
       {!loading && children}
     </button>
   ) : (
-    <button {...props} className='text-[#667085] w-full'>
+    <button {...props} className='bg-white text-primary border border-primary w-full py-3 px-5 rounded-2xl flex justify-center items-center hover:bg-primary hover:text-white'>
       {children}
     </button>
   );
