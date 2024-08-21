@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { BlogCard } from '../collections/Home/BlogCard';
 import { Button, EmptyState, Input } from '../components';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import service from '../services/service';
 import { useNavigate } from 'react-router-dom';
@@ -28,9 +28,7 @@ const Home = () => {
 
   return (
     <div className='container mx-auto'>
-      <div>
-        <Toaster />
-      </div>
+      
       {/* Hero section  */}
       <div className='flex flex-col justify-center items-center gap-4 my-16'>
         <h1 className='font-semibold text-4xl'>Blogs</h1>

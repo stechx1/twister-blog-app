@@ -10,6 +10,7 @@ import store from './store/store.js';
 import Home from './pages/Home.jsx';
 import Post from './pages/Post.jsx';
 import CreateBlog from './pages/CreateBlog.jsx';
+import EditPostPage from './pages/EditPost.jsx';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { path: '/', element: <Home /> },
       { path: '/post/:slug', element: <Post /> },
       { path: '/create-blog', element: <CreateBlog /> },
+      { path: '/edit/:slug', element: <EditPostPage /> },
     ],
   },
   {

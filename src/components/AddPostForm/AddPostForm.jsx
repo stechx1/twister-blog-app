@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Input } from '../Input';
 import { Toggle } from '../Input/Toggle';
@@ -8,33 +9,81 @@ import service from '../../services/service';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-export const AddPostForm = () => {
+export const AddPostForm = ({ postData }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
-  const { register, handleSubmit, control, watch, setValue } = useForm();
+  const { register, handleSubmit, control, watch, setValue, reset, getValues } =
+    useForm({
+      defaultValues: {
+        title: postData?.title || '',
+        slug: postData?.$id || '',
+        authorName: postData?.authorName || '',
+        description: postData?.description || '',
+        active: postData?.active || true,
+        content: postData?.content || '',
+      },
+    });
+
+  useEffect(() => {
+    if (postData) {
+      reset({
+        title: postData.title,
+        slug: postData.$id,
+        authorName: postData.authorName,
+        description: postData.description,
+        active: postData.active,
+        content: postData.content,
+        featuredImg: postData.featuredImg,
+      });
+    }
+  }, [postData, reset]);
 
   const onPostSubmit = async (data) => {
     setError('');
     setLoading(true);
-    try {
-      const file = await service.uploadFile(data?.featuredImg[0]);
-      if (file) {
-        const postDb = await service.createPost({
+    if (postData) {
+      try {
+        const file = data.featuredImg[0]
+          ? await service.uploadFile(data.featuredImg[0])
+          : null;
+        if (file) {
+          const response = await service.deleteFile(postData.featuredImg)
+          console.log(response);
+        }
+        const postDb = await service.updatePost(postData.$id, {
           ...data,
-          featuredImg: file.$id,
-          userId: userData?.$id,
+          featuredImg: file ? file.$id : undefined,
         });
         if (postDb) {
           navigate(`/post/${postDb.$id}`);
           setLoading(false);
         }
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+        throw new Error(error);
       }
-    } catch (error) {
-      setError(error.message);
-      setLoading(false);
-      throw new Error(error);
+    } else {
+      try {
+        const file = await service.uploadFile(data?.featuredImg[0]);
+        if (file) {
+          const postDb = await service.createPost({
+            ...data,
+            featuredImg: file.$id,
+            userId: userData?.$id,
+          });
+          if (postDb) {
+            navigate(`/post/${postDb.$id}`);
+            setLoading(false);
+          }
+        }
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+        throw new Error(error);
+      }
     }
   };
 
@@ -105,7 +154,7 @@ export const AddPostForm = () => {
         <TinyMCE
           label={'Content'}
           control={control}
-          defaultValue='Sana Saeed'
+          defaultValue={getValues('content')}
         />
       </div>
 
@@ -117,9 +166,13 @@ export const AddPostForm = () => {
 
       <div>
         <Button loading={loading} type='submit' className='w-52'>
-          Submit
+          {postData ? 'Update Changes' : 'Submit'}
         </Button>
       </div>
     </form>
   );
+};
+
+AddPostForm.propTypes = {
+  postData: PropTypes.object,
 };

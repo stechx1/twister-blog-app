@@ -3,6 +3,7 @@ import { Footer, Navbar } from './components';
 import authService from './services/auth';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
 import { login, logout } from './store/authSlice';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
   }, [dispatch]);
   return (
     <>
+      <Toaster />
       <Navbar />
       <Outlet />
       <Footer />
