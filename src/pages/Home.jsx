@@ -9,18 +9,22 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
   const { register, handleSubmit } = useForm();
   const [posts, setPosts] = useState([]);
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const onSubscribe = (data) => {
     toast.success(`${data.email} Subscibed Successfully`);
   };
   useEffect(() => {
     const getAllPosts = async () => {
+      setLoading(true);
       try {
         const posts = await service.getAllPosts();
         setPosts(posts.documents);
+        setLoading(false);
       } catch (error) {
         console.error(error);
         toast.error('Failed to fetch posts');
+        setLoading(false);
       }
     };
     getAllPosts();
@@ -28,7 +32,6 @@ const Home = () => {
 
   return (
     <div className='container mx-auto'>
-      
       {/* Hero section  */}
       <div className='flex flex-col justify-center items-center gap-4 my-16'>
         <h1 className='font-semibold text-4xl'>Blogs</h1>
@@ -85,15 +88,17 @@ const Home = () => {
               );
             })}
         </div>
-        {posts?.length <= 0 && (
+        {!loading && posts?.length <= 0 && (
           <div className='flex justify-center items-center my-8'>
             <EmptyState
               title='No Blogs Yet'
               content='Click the button to get started adding new blogs'
-              buttonText='Create' buttonAction={() => navigate("/create-blog")}
+              buttonText='Create'
+              buttonAction={() => navigate('/create-blog')}
             />
           </div>
         )}
+        {loading && <div>Loading.....</div>}
       </div>
       {/* <div className='my-20'>
         <Pagination />
