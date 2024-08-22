@@ -121,7 +121,7 @@ export const AddPostForm = ({ postData }) => {
 
   return (
     <form className='space-y-8' onSubmit={handleSubmit(onPostSubmit)}>
-      <div className='flex gap-8'>
+      <div className='md:flex gap-8'>
         <div className='flex-1'>
           <Input
             type='text'
@@ -131,7 +131,7 @@ export const AddPostForm = ({ postData }) => {
           />
         </div>
 
-        <div className='md:flex justify-center items-center flex-1'>
+        <div className=' mt-8 md:mt-0 md:flex justify-center items-center flex-1'>
           <Input
             type='file'
             label='Featured Image'
@@ -161,7 +161,7 @@ export const AddPostForm = ({ postData }) => {
         </div>
       </div>
 
-      <div className='flex gap-8'>
+      <div className='md:flex gap-8'>
         <Input
           type='text'
           placeholder='Enter Slug'
@@ -179,7 +179,7 @@ export const AddPostForm = ({ postData }) => {
         <Toggle hide label={'Active'} {...register('active')} />
       </div>
 
-      <div className='flex gap-8'>
+      <div className='md:flex gap-8 space-y-8 md:space-y-0'>
         <Input
           type='text'
           placeholder='Enter Auhor Name'

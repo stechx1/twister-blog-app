@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export const Toggle = forwardRef(({ hide, label, ...props }, ref) => {
   const id = useId();
   return (
-    <div className={`${hide? "invisible": ""} w-full`}>
+    <div className={`${hide? "md:invisible": ""} w-full hidden`}>
       {label && (
         <label
           className='inline-block mb-3 pl-1 font-semibold text-lg'
